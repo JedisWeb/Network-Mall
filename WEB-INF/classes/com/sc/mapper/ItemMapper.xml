@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sc.mapper.ItemMapper" >
+  <resultMap id="BaseResultMap" type="com.sc.entity.Item" >
+    <constructor >
+      <idArg column="itemId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="itemName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="cid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="itemProductor" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="itemPhoto" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="itemIntro" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="priceVip" jdbcType="REAL" javaType="java.lang.Float" />
+      <arg column="priceNormal" jdbcType="REAL" javaType="java.lang.Float" />
+      <arg column="itemNum" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="itemTotNum" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="itemState" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    itemId, itemName, cid, itemProductor, itemPhoto, itemIntro, priceVip, priceNormal, 
+    itemNum, itemTotNum, itemState
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sc.entity.ItemExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_item
+    where itemId = #{itemid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_item
+    where itemId = #{itemid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sc.entity.ItemExample" >
+    delete from t_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sc.entity.Item" >
+    insert into t_item (itemId, itemName, cid, 
+      itemProductor, itemPhoto, itemIntro, 
+      priceVip, priceNormal, itemNum, 
+      itemTotNum, itemState)
+    values (#{itemid,jdbcType=INTEGER}, #{itemname,jdbcType=VARCHAR}, #{cid,jdbcType=INTEGER}, 
+      #{itemproductor,jdbcType=VARCHAR}, #{itemphoto,jdbcType=VARCHAR}, #{itemintro,jdbcType=VARCHAR}, 
+      #{pricevip,jdbcType=REAL}, #{pricenormal,jdbcType=REAL}, #{itemnum,jdbcType=INTEGER}, 
+      #{itemtotnum,jdbcType=INTEGER}, #{itemstate,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sc.entity.Item" >
+    insert into t_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="itemid != null" >
+        itemId,
+      </if>
+      <if test="itemname != null" >
+        itemName,
+      </if>
+      <if test="cid != null" >
+        cid,
+      </if>
+      <if test="itemproductor != null" >
+        itemProductor,
+      </if>
+      <if test="itemphoto != null" >
+        itemPhoto,
+      </if>
+      <if test="itemintro != null" >
+        itemIntro,
+      </if>
+      <if test="pricevip != null" >
+        priceVip,
+      </if>
+      <if test="pricenormal != null" >
+        priceNormal,
+      </if>
+      <if test="itemnum != null" >
+        itemNum,
+      </if>
+      <if test="itemtotnum != null" >
+        itemTotNum,
+      </if>
+      <if test="itemstate != null" >
+        itemState,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="itemid != null" >
+        #{itemid,jdbcType=INTEGER},
+      </if>
+      <if test="itemname != null" >
+        #{itemname,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null" >
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="itemproductor != null" >
+        #{itemproductor,jdbcType=VARCHAR},
+      </if>
+      <if test="itemphoto != null" >
+        #{itemphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="itemintro != null" >
+        #{itemintro,jdbcType=VARCHAR},
+      </if>
+      <if test="pricevip != null" >
+        #{pricevip,jdbcType=REAL},
+      </if>
+      <if test="pricenormal != null" >
+        #{pricenormal,jdbcType=REAL},
+      </if>
+      <if test="itemnum != null" >
+        #{itemnum,jdbcType=INTEGER},
+      </if>
+      <if test="itemtotnum != null" >
+        #{itemtotnum,jdbcType=INTEGER},
+      </if>
+      <if test="itemstate != null" >
+        #{itemstate,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sc.entity.ItemExample" resultType="java.lang.Integer" >
+    select count(*) from t_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_item
+    <set >
+      <if test="record.itemid != null" >
+        itemId = #{record.itemid,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemname != null" >
+        itemName = #{record.itemname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cid != null" >
+        cid = #{record.cid,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemproductor != null" >
+        itemProductor = #{record.itemproductor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemphoto != null" >
+        itemPhoto = #{record.itemphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemintro != null" >
+        itemIntro = #{record.itemintro,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pricevip != null" >
+        priceVip = #{record.pricevip,jdbcType=REAL},
+      </if>
+      <if test="record.pricenormal != null" >
+        priceNormal = #{record.pricenormal,jdbcType=REAL},
+      </if>
+      <if test="record.itemnum != null" >
+        itemNum = #{record.itemnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemtotnum != null" >
+        itemTotNum = #{record.itemtotnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemstate != null" >
+        itemState = #{record.itemstate,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_item
+    set itemId = #{record.itemid,jdbcType=INTEGER},
+      itemName = #{record.itemname,jdbcType=VARCHAR},
+      cid = #{record.cid,jdbcType=INTEGER},
+      itemProductor = #{record.itemproductor,jdbcType=VARCHAR},
+      itemPhoto = #{record.itemphoto,jdbcType=VARCHAR},
+      itemIntro = #{record.itemintro,jdbcType=VARCHAR},
+      priceVip = #{record.pricevip,jdbcType=REAL},
+      priceNormal = #{record.pricenormal,jdbcType=REAL},
+      itemNum = #{record.itemnum,jdbcType=INTEGER},
+      itemTotNum = #{record.itemtotnum,jdbcType=INTEGER},
+      itemState = #{record.itemstate,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sc.entity.Item" >
+    update t_item
+    <set >
+      <if test="itemname != null" >
+        itemName = #{itemname,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null" >
+        cid = #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="itemproductor != null" >
+        itemProductor = #{itemproductor,jdbcType=VARCHAR},
+      </if>
+      <if test="itemphoto != null" >
+        itemPhoto = #{itemphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="itemintro != null" >
+        itemIntro = #{itemintro,jdbcType=VARCHAR},
+      </if>
+      <if test="pricevip != null" >
+        priceVip = #{pricevip,jdbcType=REAL},
+      </if>
+      <if test="pricenormal != null" >
+        priceNormal = #{pricenormal,jdbcType=REAL},
+      </if>
+      <if test="itemnum != null" >
+        itemNum = #{itemnum,jdbcType=INTEGER},
+      </if>
+      <if test="itemtotnum != null" >
+        itemTotNum = #{itemtotnum,jdbcType=INTEGER},
+      </if>
+      <if test="itemstate != null" >
+        itemState = #{itemstate,jdbcType=INTEGER},
+      </if>
+    </set>
+    where itemId = #{itemid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sc.entity.Item" >
+    update t_item
+    set itemName = #{itemname,jdbcType=VARCHAR},
+      cid = #{cid,jdbcType=INTEGER},
+      itemProductor = #{itemproductor,jdbcType=VARCHAR},
+      itemPhoto = #{itemphoto,jdbcType=VARCHAR},
+      itemIntro = #{itemintro,jdbcType=VARCHAR},
+      priceVip = #{pricevip,jdbcType=REAL},
+      priceNormal = #{pricenormal,jdbcType=REAL},
+      itemNum = #{itemnum,jdbcType=INTEGER},
+      itemTotNum = #{itemtotnum,jdbcType=INTEGER},
+      itemState = #{itemstate,jdbcType=INTEGER}
+    where itemId = #{itemid,jdbcType=INTEGER}
+  </update>
+</mapper>

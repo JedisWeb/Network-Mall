@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sc.mapper.OrderMapper" >
+  <resultMap id="BaseResultMap" type="com.sc.entity.Order" >
+    <constructor >
+      <idArg column="oid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="uid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="uname" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="utel" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="uaddress" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="iid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="iname" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="iprice" jdbcType="REAL" javaType="java.lang.Float" />
+      <arg column="inumber" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="isum" jdbcType="REAL" javaType="java.lang.Float" />
+      <arg column="iphoto" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="oshopDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="oisSend" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="osendDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="oisReceive" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="oreceiveDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    oid, uid, uname, utel, uaddress, iid, iname, iprice, inumber, isum, iphoto, oshopDate, 
+    oisSend, osendDate, oisReceive, oreceiveDate
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sc.entity.OrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where oid = #{oid,jdbcType=INTEGER}
+  </select>
+  <select id="selectByUname" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where uname = #{uname,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_order
+    where oid = #{oid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sc.entity.OrderExample" >
+    delete from t_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sc.entity.Order" >
+    insert into t_order (oid, uid, uname, 
+      utel, uaddress, iid, 
+      iname, iprice, inumber, 
+      isum, iphoto, oshopDate, 
+      oisSend, osendDate, oisReceive, 
+      oreceiveDate)
+    values (#{oid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{uname,jdbcType=VARCHAR}, 
+      #{utel,jdbcType=VARCHAR}, #{uaddress,jdbcType=VARCHAR}, #{iid,jdbcType=INTEGER}, 
+      #{iname,jdbcType=VARCHAR}, #{iprice,jdbcType=REAL}, #{inumber,jdbcType=INTEGER}, 
+      #{isum,jdbcType=REAL}, #{iphoto,jdbcType=VARCHAR}, #{oshopdate,jdbcType=VARCHAR}, 
+      #{oissend,jdbcType=VARCHAR}, #{osenddate,jdbcType=VARCHAR}, #{oisreceive,jdbcType=VARCHAR}, 
+      #{oreceivedate,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sc.entity.Order" >
+    insert into t_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="oid != null" >
+        oid,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="uname != null" >
+        uname,
+      </if>
+      <if test="utel != null" >
+        utel,
+      </if>
+      <if test="uaddress != null" >
+        uaddress,
+      </if>
+      <if test="iid != null" >
+        iid,
+      </if>
+      <if test="iname != null" >
+        iname,
+      </if>
+      <if test="iprice != null" >
+        iprice,
+      </if>
+      <if test="inumber != null" >
+        inumber,
+      </if>
+      <if test="isum != null" >
+        isum,
+      </if>
+      <if test="iphoto != null" >
+        iphoto,
+      </if>
+      <if test="oshopdate != null" >
+        oshopDate,
+      </if>
+      <if test="oissend != null" >
+        oisSend,
+      </if>
+      <if test="osenddate != null" >
+        osendDate,
+      </if>
+      <if test="oisreceive != null" >
+        oisReceive,
+      </if>
+      <if test="oreceivedate != null" >
+        oreceiveDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="oid != null" >
+        #{oid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="uname != null" >
+        #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="utel != null" >
+        #{utel,jdbcType=VARCHAR},
+      </if>
+      <if test="uaddress != null" >
+        #{uaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="iid != null" >
+        #{iid,jdbcType=INTEGER},
+      </if>
+      <if test="iname != null" >
+        #{iname,jdbcType=VARCHAR},
+      </if>
+      <if test="iprice != null" >
+        #{iprice,jdbcType=REAL},
+      </if>
+      <if test="inumber != null" >
+        #{inumber,jdbcType=INTEGER},
+      </if>
+      <if test="isum != null" >
+        #{isum,jdbcType=REAL},
+      </if>
+      <if test="iphoto != null" >
+        #{iphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="oshopdate != null" >
+        #{oshopdate,jdbcType=VARCHAR},
+      </if>
+      <if test="oissend != null" >
+        #{oissend,jdbcType=VARCHAR},
+      </if>
+      <if test="osenddate != null" >
+        #{osenddate,jdbcType=VARCHAR},
+      </if>
+      <if test="oisreceive != null" >
+        #{oisreceive,jdbcType=VARCHAR},
+      </if>
+      <if test="oreceivedate != null" >
+        #{oreceivedate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sc.entity.OrderExample" resultType="java.lang.Integer" >
+    select count(*) from t_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_order
+    <set >
+      <if test="record.oid != null" >
+        oid = #{record.oid,jdbcType=INTEGER},
+      </if>
+      <if test="record.uid != null" >
+        uid = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.uname != null" >
+        uname = #{record.uname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.utel != null" >
+        utel = #{record.utel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uaddress != null" >
+        uaddress = #{record.uaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iid != null" >
+        iid = #{record.iid,jdbcType=INTEGER},
+      </if>
+      <if test="record.iname != null" >
+        iname = #{record.iname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iprice != null" >
+        iprice = #{record.iprice,jdbcType=REAL},
+      </if>
+      <if test="record.inumber != null" >
+        inumber = #{record.inumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.isum != null" >
+        isum = #{record.isum,jdbcType=REAL},
+      </if>
+      <if test="record.iphoto != null" >
+        iphoto = #{record.iphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oshopdate != null" >
+        oshopDate = #{record.oshopdate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oissend != null" >
+        oisSend = #{record.oissend,jdbcType=VARCHAR},
+      </if>
+      <if test="record.osenddate != null" >
+        osendDate = #{record.osenddate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oisreceive != null" >
+        oisReceive = #{record.oisreceive,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oreceivedate != null" >
+        oreceiveDate = #{record.oreceivedate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_order
+    set oid = #{record.oid,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=INTEGER},
+      uname = #{record.uname,jdbcType=VARCHAR},
+      utel = #{record.utel,jdbcType=VARCHAR},
+      uaddress = #{record.uaddress,jdbcType=VARCHAR},
+      iid = #{record.iid,jdbcType=INTEGER},
+      iname = #{record.iname,jdbcType=VARCHAR},
+      iprice = #{record.iprice,jdbcType=REAL},
+      inumber = #{record.inumber,jdbcType=INTEGER},
+      isum = #{record.isum,jdbcType=REAL},
+      iphoto = #{record.iphoto,jdbcType=VARCHAR},
+      oshopDate = #{record.oshopdate,jdbcType=VARCHAR},
+      oisSend = #{record.oissend,jdbcType=VARCHAR},
+      osendDate = #{record.osenddate,jdbcType=VARCHAR},
+      oisReceive = #{record.oisreceive,jdbcType=VARCHAR},
+      oreceiveDate = #{record.oreceivedate,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sc.entity.Order" >
+    update t_order
+    <set >
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="uname != null" >
+        uname = #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="utel != null" >
+        utel = #{utel,jdbcType=VARCHAR},
+      </if>
+      <if test="uaddress != null" >
+        uaddress = #{uaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="iid != null" >
+        iid = #{iid,jdbcType=INTEGER},
+      </if>
+      <if test="iname != null" >
+        iname = #{iname,jdbcType=VARCHAR},
+      </if>
+      <if test="iprice != null" >
+        iprice = #{iprice,jdbcType=REAL},
+      </if>
+      <if test="inumber != null" >
+        inumber = #{inumber,jdbcType=INTEGER},
+      </if>
+      <if test="isum != null" >
+        isum = #{isum,jdbcType=REAL},
+      </if>
+      <if test="iphoto != null" >
+        iphoto = #{iphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="oshopdate != null" >
+        oshopDate = #{oshopdate,jdbcType=VARCHAR},
+      </if>
+      <if test="oissend != null" >
+        oisSend = #{oissend,jdbcType=VARCHAR},
+      </if>
+      <if test="osenddate != null" >
+        osendDate = #{osenddate,jdbcType=VARCHAR},
+      </if>
+      <if test="oisreceive != null" >
+        oisReceive = #{oisreceive,jdbcType=VARCHAR},
+      </if>
+      <if test="oreceivedate != null" >
+        oreceiveDate = #{oreceivedate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where oid = #{oid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sc.entity.Order" >
+    update t_order
+    set uid = #{uid,jdbcType=INTEGER},
+      uname = #{uname,jdbcType=VARCHAR},
+      utel = #{utel,jdbcType=VARCHAR},
+      uaddress = #{uaddress,jdbcType=VARCHAR},
+      iid = #{iid,jdbcType=INTEGER},
+      iname = #{iname,jdbcType=VARCHAR},
+      iprice = #{iprice,jdbcType=REAL},
+      inumber = #{inumber,jdbcType=INTEGER},
+      isum = #{isum,jdbcType=REAL},
+      iphoto = #{iphoto,jdbcType=VARCHAR},
+      oshopDate = #{oshopdate,jdbcType=VARCHAR},
+      oisSend = #{oissend,jdbcType=VARCHAR},
+      osendDate = #{osenddate,jdbcType=VARCHAR},
+      oisReceive = #{oisreceive,jdbcType=VARCHAR},
+      oreceiveDate = #{oreceivedate,jdbcType=VARCHAR}
+    where oid = #{oid,jdbcType=INTEGER}
+  </update>
+</mapper>
